@@ -1,50 +1,104 @@
-#include "header.h"
-#include "day1.h"
-
-
 void day1a()
 {
-	ifstream file("fuel.txt");
-	int input = 0;
-	int totalFuel = 0;
+	ifstream file("day1a.txt");
 
+	vector<int> listOfNumbers;
+	int input = 0, i = 0, j = 0, combined = 0;
 	while (file >> input)
 	{
-		totalFuel += ((input / 3) - 2);
+		listOfNumbers.push_back(input);
 	}
 
-	printf("Total fuel is %d\n", totalFuel);
+	sort(listOfNumbers.begin(), listOfNumbers.end());
 
+	i = 0;
+	j = listOfNumbers.size() - 1;
+	//have trackers at beginning and end
+	//if value is too big, move end value one closer to middle
+	//if value is too small, move begin value one closer to middle
+	while (i < j)
+	{
+		combined = listOfNumbers[i] + listOfNumbers[j];
+		if (combined < 2020)
+		{
+			i++;
+		}
+		else if (combined > 2020)
+		{
+			j--;
+		}
+		if (combined == 2020)
+		{
+			cout << "i =" << listOfNumbers[i] << " j =" << listOfNumbers[j] << endl;
+			break;
+		}
+	}
+	cout << endl << listOfNumbers[i] * listOfNumbers[j];
 	file.close();
-
-	return;
 }
 
 void day1b()
 {
-	ifstream file("fuel.txt");
-	int input = 0;
-	int totalFuel = 0;
+	ifstream file("day1a.txt");
 
-	//addfuel = 0;
-
+	vector<int> listOfNumbers;
+	int input = 0, i = 0, j = 0, k = 0, combined = 0, goal = 0;
+	bool escape = false;
 	while (file >> input)
 	{
-		totalFuel += calculateFuel(input);
+		listOfNumbers.push_back(input);
+	}
+	sort(listOfNumbers.begin(), listOfNumbers.end());
+
+
+	k = listOfNumbers.size() - 1;
+	for (i = 0; i < listOfNumbers.size(); i++)
+	{
+		cout << listOfNumbers[i] << endl;
+	}
+	while (k != 0)
+	{
+		i = 0; 
+		j = 1;
+		goal = 2020 - listOfNumbers[k];
+		if ((listOfNumbers[i] + listOfNumbers[j]) <= goal)
+		{
+			while (listOfNumbers[j] < goal)
+			{
+				j++;
+
+			}
+			while (i < j)
+			{
+				
+				
+				combined = listOfNumbers[i] + listOfNumbers[j];
+
+				if (combined < goal)
+				{
+					i++;
+				}
+				else if (combined > goal)
+				{
+					j--;
+				}
+				if (combined == goal)
+				{
+					cout << "i =" << listOfNumbers[i] << " j =" << listOfNumbers[j] << " k =" << listOfNumbers[k] << endl;
+					cout << "multiplied together the answer is " << listOfNumbers[i] * listOfNumbers[j] * listOfNumbers[k] << endl;
+					escape = true;
+					break;
+				}
+			}
+		}
+		if (escape == true)
+		{
+			break;
+		}
+
+		k--;
+		
 	}
 
-	printf("Total fuel is %d\n", totalFuel);
-
-	file.close();
-
-	return;
-}
-
-int calculateFuel(int fuel)
-{
-	int total = ((fuel / 3) - 2);
-	if (total <= 0)
-		return 0;
-	else
-		return(total + calculateFuel(total));
+	sort(listOfNumbers.begin(), listOfNumbers.end());
 }
