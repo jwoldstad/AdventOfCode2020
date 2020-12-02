@@ -99,6 +99,4 @@ void day1b()
 		k--;
 		
 	}
-
-	sort(listOfNumbers.begin(), listOfNumbers.end());
 }
